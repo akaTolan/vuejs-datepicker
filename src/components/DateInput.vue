@@ -40,6 +40,7 @@
 </template>
 <script>
 import { makeDateUtils } from '../utils/DateUtils'
+import { moment } from 'moment'
 export default {
   props: {
     selectedDate: Date,
@@ -118,10 +119,17 @@ export default {
       }
 
       if (this.typeable) {
+        //Changed 3 maio 2019 by Nuno Fontinha
         const typedDate = Date.parse(this.input.value)
+
         if (!isNaN(typedDate)) {
           this.typedDate = this.input.value
-          this.$emit('typedDate', new Date(this.typedDate))
+
+          //comment the line bellow because the format prop only formats the display value, not the input format
+          // this.$emit('typedDate', new Date(this.typedDate))
+
+          //using the  3rd party library Moment to convert the right format
+          this.$emit('typedDate', new Date(moment(this.input.value , 'DD/MM/YYYY').valueOf()))
         }
       }
     },
